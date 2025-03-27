@@ -1,38 +1,26 @@
-import math
+from tkinter import *
+from tkinter import ttk
 
 
+def choice_1():
+    print("1")
+def choice_2():
+    print("2")
+def choice_3():
+    print("3")
 
-# Функция блока квадратного уравнения
-def sq_eq():
-    print('Форма уравнения: y = a*x^2 + b*x + c')
-    while True:
-        a = input('Введите a\n')
-        b = input('Введите b\n')
-        c = input('Введите c\n')
-        y = input('Введите y\n')
+root = Tk()     # создаем окно main
+root.title("Выбирите режим калькулятора")     # устанавливаем заголовок окна
+root.geometry("400x140")    # устанавливаем размеры окна
 
-        try:
-            a = float(a)
-            b = float(b)
-            c = float(c)
-            y = float(y)
+# добавляем кнопку, настраиваем ее форму и цвет
+# при нажатии сработает функция hello world
+btn1 = ttk.Button(text="Решение линейного уравнения", command=choice_1)
+btn2 = ttk.Button(text="Решение квадратного уравнения", command=choice_2)
+btn3 = ttk.Button(text="Режим калькулятора", command=choice_3)
 
-            c = c-y
-            discr = b ** 2 - 4 * a * c
+btn1.pack(anchor="center", fill=X, expand=True, ipady=10)
+btn2.pack(anchor="center", fill=X, expand=True, ipady=10)
+btn3.pack(anchor="center", fill=X, expand=True, ipady=10)
+root.mainloop()
 
-            if discr > 0:
-                x1 = (-b + math.sqrt(discr)) / (2 * a)
-                x2 = (-b - math.sqrt(discr)) / (2 * a)
-                print("x1 = %.6f \nx2 = %.6f" % (x1, x2))
-
-            elif discr == 0:
-                x = -b / (2 * a)
-                print("x = %.6f" % x)
-            else:
-                print("Корней нет")
-
-            break
-        except:
-            print('ПРОВЕРЬТЕ ВВЕДЁННЫЕ ЗНАЧЕНИЯ!!!')
-
-sq_eq()
