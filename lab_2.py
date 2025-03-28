@@ -3,173 +3,39 @@ from tkinter import *
 from tkinter import ttk
 
 
+def choice_lin_eq():
 
-# Функция блока калькулятора
-def calc():
+    def solve_handlr_lin():
 
-    # Функция получения операции вычисления
-    def get_op():
-        while True:
-            operator = input('введите операцию\n')
-            if operator in ['-', '/', '*', '+']:
+        label = ttk.Label(lin_eq_gui, padding=17, width=40, font=("Arial", 12), justify=LEFT, text=" ")
+        label.place(x=200, y=160)
 
-                return operator
-            else:
-                pass
-
-    # Функция получения операндов
-    def get_num():
-        while True:
-            num_1 = input('введите 1\n')
-            num_2 = input('введите 2\n')
-
-            try:
-                num_1 = float(num_1)
-                num_2 = float(num_2)
-
-                return num_1, num_2
-            except:
-                print('ВВОДИ ЧИСЛА!!!')
-
-    # Запись переменных с операцией и операндами
-    op = get_op()
-    num1, num2 = get_num()
-
-    # Проверка деления на ноль
-    if op == '/':
-        while num2 == 0:
-            num2 = input('ДЕЛЕНИЕ НА НОЛЬ. ВВЕДИТЕ ЕЩЁ РАЗ!\n')
-            num2 = float(num2)
-    else:
-        pass
-
-    # Блок непосредственного вычисления
-    arg = 'x' + op + 'y'
-    f = lambda x, y: eval(arg)
-    print(f'{num1} {op} {num2} = ', f(num1, num2))
-
-
-# Функция блока линейного уравнения
-def lin_eq():
-    print('Форма уравнения: y = k*x + b')
-    while True:
-        k = input('Введите k\n')
-        b = input('Введите b\n')
-        y = input('Введите y\n')
+        k = entry_k.get()
+        b = entry_b.get()
+        y = entry_y.get()
 
         try:
             k = float(k)
             b = float(b)
             y = float(y)
 
-            while k == 0:
-                k = input('k не должно быть равно 0! Введите ещё раз\n')
-                k = float(k)
-
-            x = (y - b) / k
-            print('Ответ: х =', x)
-
-            break
-        except:
-            print('ВВОДИ ЧИСЛА!!!')
-
-
-# Функция блока квадратного уравнения
-def sq_eq():
-    print('Форма уравнения: y = a*x^2 + b*x + c')
-    while True:
-        a = input('Введите a\n')
-        b = input('Введите b\n')
-        c = input('Введите c\n')
-        y = input('Введите y\n')
-
-        try:
-            a = float(a)
-            b = float(b)
-            c = float(c)
-            y = float(y)
-
-            c = c - y
-            discr = b ** 2 - 4 * a * c
-
-            if discr > 0:
-                x1 = (-b + math.sqrt(discr)) / (2 * a)
-                x2 = (-b - math.sqrt(discr)) / (2 * a)
-                print("Ответ: x_1 = %.6f \n\t   x_2 = %.6f" % (x1, x2))
-
-            elif discr == 0:
-                x = -b / (2 * a)
-                print("x = %.6f" % x)
+            if k == 0:
+                label_x1 = ttk.Label(lin_eq_gui, font=("Arial", 12), justify=LEFT, text='k не должно быть \nравно 0!')
+                label_x1.place(x=200, y=150)
             else:
-                print("Корней нет")
+                x = (y - b) / k
+                label_x1 = ttk.Label(lin_eq_gui, font=("Arial", 12), justify=LEFT, text=f'Ответ: х = {x:.4f}')
+                label_x1.place(x=200, y=150)
 
-            break
         except:
-            print('ПРОВЕРЬТЕ ВВЕДЁННЫЕ ЗНАЧЕНИЯ!!!')
-
-
-# Главная функция программы - выбор между режимами и вызов соответствующих функций
-def overall_calculator():
-    choose_reg = choose_regime()
-
-    # Условие выбора блока линейного уравнения
-    if choose_reg == 1:
-        lin_eq()
-
-    # Условие выбора блока квадратного уравнения
-    elif choose_reg == 2:
-        sq_eq()
-
-    # Условие выбора блока калькулятора
-    elif choose_reg == 3:
-        calc()
-
-# Бесконечный вызов главной функции
-
-
-
-
-
-
-# Функция выбора режима работы калькулятора
-def choose_regime():
-    print('\nВыберите режим калькулятора:\n\t1)Решение линейного уравнения',
-          '\n\t2)Решение квадратного уравнения\n\t3)Режим калькулятора\n')
-    while True:
-        regime = input()
-        if regime in ['1', '2', '3']:
-            regime = int(regime)
-            return regime
-        else:
-            print('ВВЕДИТЕ 1 ИЛИ 2 ИЛИ 3 !!!!\n')
-            pass
-
-
-
-
-
-
-
-
-def choice_lin_eq():
-
-    def solve_handlr():
-        k = entry_k.get()
-        b = entry_b.get()
-        y = entry_y.get()
-        k = float(k)
-        b = float(b)
-        y = float(y)
-        x = (y - b) / k
-
-        label_x1 = ttk.Label(lin_eq_gui, font=("Arial", 12), justify=LEFT, text=x)
-        label_x1.place(x=290, y=160)
+            label_x1 = ttk.Label(lin_eq_gui, font=("Arial", 12), justify=LEFT, text='ВВОДИ ЧИСЛА!!!')
+            label_x1.place(x=200, y=150)
 
     lin_eq_gui = Tk()
-    lin_eq_gui.title("lin_eq_gui")  # устанавливаем заголовок окна
+    lin_eq_gui.title("Решение линейного уравнения")  # устанавливаем заголовок окна
     lin_eq_gui.geometry("400x200")  # устанавливаем размеры окна
 
-    label1 = ttk.Label(lin_eq_gui,font=("Arial", 12),justify=CENTER,
+    label1 = ttk.Label(lin_eq_gui, font=("Arial", 12), justify=CENTER,
                        text="Форма уравнения:\ny = k*x + b\n\nРешение относительно x")
     label2 = ttk.Label(lin_eq_gui, font=("Arial", 12), justify=LEFT, text="Введите:")
 
@@ -180,10 +46,8 @@ def choice_lin_eq():
     entry_b = ttk.Entry(lin_eq_gui)
     entry_y = ttk.Entry(lin_eq_gui)
 
-    label_x = ttk.Label(lin_eq_gui, font=("Arial", 12), justify=LEFT, text="Ответ: х =")
-    solve_btn = ttk.Button(lin_eq_gui, text="Найти", command=solve_handlr)
-
-
+    solve_btn = ttk.Button(lin_eq_gui, text="Найти", command=solve_handlr_lin)
+    root_btn = ttk.Button(lin_eq_gui, text="Меню", command=root_gui)
 
     label1.pack(anchor="n")
     label2.pack(anchor="w")
@@ -195,20 +59,172 @@ def choice_lin_eq():
     entry_b.place(x=35, y=130)
     entry_y.place(x=35, y=160)
 
-    label_x.place(x=200, y=160)
     solve_btn.place(x=200, y=100)
-
-
+    root_btn.place(x=10, y=10)
 
 def choice_sq_eq():
-    return 0
+
+    # def clear_handlr_sq():
+    #     print(0)
+    #     label_x.master.destroy()
+
+    def solve_handlr_sq():
+
+        label = ttk.Label(sq_eq_gui, padding=17, width=30, font=("Arial", 12), justify=LEFT, text=" ")
+        label.place(x=200, y=160)
+
+        a = entry_a.get()
+        b = entry_b.get()
+        c = entry_c.get()
+        y = entry_y.get()
+
+        try:
+            a = float(a)
+            b = float(b)
+            c = float(c)
+            y = float(y)
+
+            c = c - y
+            discr = b ** 2 - 4 * a * c
+
+            if discr > 0 & int(a) != 0:
+                x1 = (-b + math.sqrt(discr)) / (2 * a)
+                x2 = (-b - math.sqrt(discr)) / (2 * a)
+                label_x = ttk.Label(sq_eq_gui, font=("Arial", 12), justify=LEFT,
+                                    text="Ответ: \nx_1 = %.6f \nx_2 = %.6f" % (x1, x2))
+                label_x.place(x=200, y=160)
+
+            elif discr == 0:
+                x = -b / (2 * a)
+                label_x = ttk.Label(sq_eq_gui, font=("Arial", 12), justify=LEFT, text="Ответ: x = %.6f" % x)
+                label_x.place(x=200, y=160)
+
+            elif a == 0:
+                label_x = ttk.Label(sq_eq_gui, font=("Arial", 12), justify=LEFT, text="Вы ввели линейное\nуравнение!")
+                label_x.place(x=200, y=160)
+            else:
+                label_x = ttk.Label(sq_eq_gui, font=("Arial", 12), justify=LEFT, text="Ответ: \nКорней нет")
+                label_x.place(x=200, y=160)
+
+        except:
+            label_x = ttk.Label(sq_eq_gui, font=("Arial", 12), justify=LEFT, text="ПРОВЕРЬТЕ \nВВЕДЁННЫЕ \nЗНАЧЕНИЯ!!!")
+            label_x.place(x=200, y=160)
+
+
+    sq_eq_gui = Tk()
+    sq_eq_gui.title("Решение квадратного уравнения")  # устанавливаем заголовок окна
+    sq_eq_gui.geometry("400x250")  # устанавливаем размеры окна
+
+    label1 = ttk.Label(sq_eq_gui, font=("Arial", 12), justify=CENTER,
+                       text="Форма уравнения:\ny = k*x + b\n\nРешение относительно x")
+    label2 = ttk.Label(sq_eq_gui, font=("Arial", 12), justify=LEFT, text="Введите:")
+
+    label_a = ttk.Label(sq_eq_gui, font=("Arial", 12), justify=LEFT, text="a = ")
+    label_b = ttk.Label(sq_eq_gui, font=("Arial", 12), justify=LEFT, text="b = ")
+    label_c = ttk.Label(sq_eq_gui, font=("Arial", 12), justify=LEFT, text="c = ")
+    label_y = ttk.Label(sq_eq_gui, font=("Arial", 12), justify=LEFT, text="y = ")
+    entry_a = ttk.Entry(sq_eq_gui)
+    entry_b = ttk.Entry(sq_eq_gui)
+    entry_c = ttk.Entry(sq_eq_gui)
+    entry_y = ttk.Entry(sq_eq_gui)
+
+    solve_btn = ttk.Button(sq_eq_gui, text="Найти", command=solve_handlr_sq)
+    root_btn = ttk.Button(sq_eq_gui, text="Меню", command=root_gui)
+    #clr_btn = ttk.Button(sq_eq_gui, text="Clear", command=clear_handlr_sq)
+
+    label1.pack(anchor="n")
+    label2.pack(anchor="w")
+
+    label_a.place(x=10, y=100)
+    label_b.place(x=10, y=130)
+    label_c.place(x=10, y=160)
+    label_y.place(x=10, y=190)
+    entry_a.place(x=35, y=100)
+    entry_b.place(x=35, y=130)
+    entry_c.place(x=35, y=160)
+    entry_y.place(x=35, y=190)
+
+    solve_btn.place(x=200, y=100)
+    root_btn.place(x=10, y=10)
+    #clr_btn.place(x=300, y=100)
 
 def choice_calc():
 
-    return 0
+    def solve_handlr_calc():
+
+        label = ttk.Label(calc_gui, padding=17, width=30, font=("Arial", 12), justify=LEFT, text=" ")
+        label.place(x=150, y=160)
+
+        a = entry_a.get()
+        b = entry_b.get()
+
+        try:
+            x = float(a)
+            y = float(b)
+
+            if op.get() == '/':
+                if y == 0:
+                    label_x = ttk.Label(calc_gui, foreground='#B71C1C', font=("Arial", 12),
+                                        justify=LEFT, text='Деление на ноль!!')
+                    label_x.place(x=200, y=170)
+
+                else:
+                    arg = f'{x}{op.get()}{y}'
+                    f = lambda x, y: eval(arg)
+                    label_x = ttk.Label(calc_gui, font=("Arial", 12), justify=LEFT,
+                                        text=f'Ответ: {x} {op.get()} {y} = {f(x, y)}')
+                    label_x.place(x=150, y=160)
+            else:
+                arg = f'{x}{op.get()}{y}'
+                f = lambda x, y: eval(arg)
+                label_x = ttk.Label(calc_gui, font=("Arial", 12), justify=LEFT,
+                                    text=f'Ответ: {x} {op.get()} {y} = {f(x, y)}')
+                label_x.place(x=150, y=160)
+
+        except:
+            label_x = ttk.Label(calc_gui, font=("Arial", 12), justify=LEFT, text="ПРОВЕРЬТЕ \nВВЕДЁННЫЕ \nЗНАЧЕНИЯ!!!")
+            label_x.place(x=200, y=160)
+
+    calc_gui = Tk()
+    calc_gui.title("Режим калькулятора")  # устанавливаем заголовок окна
+    calc_gui.geometry("375x250")  # устанавливаем размеры окна
+
+    label1 = ttk.Label(calc_gui, font=("Arial", 12), justify=CENTER, text="Вычислить:")
+    label2 = ttk.Label(calc_gui, font=("Arial", 12), justify=CENTER, text="Выберите действие:")
+
+    op = StringVar(calc_gui, value='+')
+
+    label_op = ttk.Label(calc_gui, font=("Arial", 12), justify=LEFT, textvariable=op)
+
+    entry_a = ttk.Entry(calc_gui)
+    entry_b = ttk.Entry(calc_gui)
+
+    solve_btn = ttk.Button(calc_gui, text="Найти", command=solve_handlr_calc)
+    root_btn = ttk.Button(calc_gui, text="Меню", command=calc_gui)
+
+    op_div_btn = ttk.Radiobutton(calc_gui, text="/", value="/", variable=op)
+    op_mult_btn = ttk.Radiobutton(calc_gui, text="*", value="*", variable=op)
+    op_summ_btn = ttk.Radiobutton(calc_gui, text="+", value="+", variable=op)
+    op_minus_btn = ttk.Radiobutton(calc_gui, text="-", value="-", variable=op)
+
+    label1.place(x=150, y=15)
+
+    label_op.place(x=183, y=50)
+    entry_a.place(x=50, y=50)
+    entry_b.place(x=200, y=50)
+
+    solve_btn.place(x=250, y=130)
+    root_btn.place(x=10, y=10)
+
+    label2.place(x=120, y=75)
+    op_div_btn.place(x=50, y=100)
+    op_mult_btn.place(x=135, y=100)
+    op_summ_btn.place(x=215, y=100)
+    op_minus_btn.place(x=295, y=100)
 
 
 def root_gui():
+
     root = Tk()     # создаем окно main
     root.title("Выберите режим калькулятора")     # устанавливаем заголовок окна
     root.geometry("400x140")    # устанавливаем размеры окна
@@ -225,4 +241,3 @@ def root_gui():
     root.mainloop()
 
 root_gui()
-
