@@ -1,8 +1,11 @@
 import math
+import numpy as np
 from tkinter import *
 from tkinter import ttk
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationToolbar2Tk)
 
-
+# Функция режима решения линейного уравнения
 def choice_lin_eq():
 
     def solve_handlr_lin():
@@ -62,6 +65,7 @@ def choice_lin_eq():
     solve_btn.place(x=200, y=100)
     root_btn.place(x=10, y=10)
 
+# Функция режима решения квадратного уравнения
 def choice_sq_eq():
 
     def solve_handlr_sq():
@@ -142,6 +146,7 @@ def choice_sq_eq():
     solve_btn.place(x=200, y=100)
     root_btn.place(x=10, y=10)
 
+# Функция режима калькулятора
 def choice_calc():
 
     def solve_handlr_calc():
@@ -194,7 +199,7 @@ def choice_calc():
     entry_b = ttk.Entry(calc_gui)
 
     solve_btn = ttk.Button(calc_gui, text="Найти", command=solve_handlr_calc)
-    root_btn = ttk.Button(calc_gui, text="Меню", command=calc_gui)
+    root_btn = ttk.Button(calc_gui, text="Меню", command=root_gui)
 
     op_div_btn      = ttk.Radiobutton(calc_gui, text="/", value="/", variable=op)
     op_mult_btn     = ttk.Radiobutton(calc_gui, text="*", value="*", variable=op)
@@ -216,21 +221,93 @@ def choice_calc():
     op_summ_btn.place(x=215, y=100)
     op_minus_btn.place(x=295, y=100)
 
+# Функция режима построения графика функции
+def choice_plot():
+
+    def plot_handlr():
+        # the figure that will contain the plot
+        fig = Figure(figsize=(5, 5),
+                     dpi=100)
+
+        # list of squares
+        y = [i ** 2 for i in range(101)]
+
+        # adding the subplot
+        plot1 = fig.add_subplot(111)
+
+        # plotting the graph
+        plot1.plot(y)
+
+        # creating the Tkinter canvas
+        # containing the Matplotlib figure
+        canvas = FigureCanvasTkAgg(fig, master=window)
+        canvas.draw()
+
+        # placing the canvas on the Tkinter window
+        canvas.get_tk_widget().pack()
+
+        # creating the Matplotlib toolbar
+        toolbar = NavigationToolbar2Tk(canvas, window)
+        toolbar.update()
+
+        # placing the toolbar on the Tkinter window
+        canvas.get_tk_widget().pack()
+
+
+    plot_gui = Tk()
+    plot_gui.title("Режим построения графика функции")  # устанавливаем заголовок окна
+    plot_gui.geometry("375x250")  # устанавливаем размеры окна
+
+    label1 = ttk.Label(plot_gui, font=("Arial", 12), justify=CENTER, text="Вычислить:")
+    label2 = ttk.Label(plot_gui, font=("Arial", 12), justify=CENTER, text="Выберите действие:")
+
+    op = StringVar(plot_gui, value='+')
+
+    label_op = ttk.Label(plot_gui, font=("Arial", 12), justify=LEFT, textvariable=op)
+
+    entry_func = ttk.Entry(plot_gui)
+    entry_b = ttk.Entry(plot_gui)
+
+    solve_btn = ttk.Button(plot_gui, text="Найти", command=plot_handlr)
+    root_btn = ttk.Button(plot_gui, text="Меню", command=root_gui)
+
+    op_div_btn      = ttk.Radiobutton(plot_gui, text="/", value="/", variable=op)
+    op_mult_btn     = ttk.Radiobutton(plot_gui, text="*", value="*", variable=op)
+    op_summ_btn     = ttk.Radiobutton(plot_gui, text="+", value="+", variable=op)
+    op_minus_btn    = ttk.Radiobutton(plot_gui, text="-", value="-", variable=op)
+
+    label1.place(x=150, y=15)
+
+    label_op.place(x=183, y=50)
+    entry_a.place(x=30, y=50)
+    entry_b.place(x=230, y=50)
+
+    solve_btn.place(x=250, y=130)
+    root_btn.place(x=10, y=10)
+
+    label2.place(x=120, y=75)
+    op_div_btn.place(x=50, y=100)
+    op_mult_btn.place(x=135, y=100)
+    op_summ_btn.place(x=215, y=100)
+    op_minus_btn.place(x=295, y=100)
+
 
 def root_gui():
 
     root = Tk()     # создаем окно root
     root.title("Выберите режим калькулятора")     # устанавливаем заголовок окна
-    root.geometry("400x140")    # устанавливаем размеры окна
+    root.geometry("400x180")    # устанавливаем размеры окна
 
     # добавляем кнопки
     btn1 = ttk.Button(root, text="Решение линейного уравнения", command=choice_lin_eq)      # при нажатии сработает функция choice_lin_eq
     btn2 = ttk.Button(root, text="Решение квадратного уравнения", command=choice_sq_eq)     # при нажатии сработает функция choice_sq_eq
     btn3 = ttk.Button(root, text="Режим калькулятора", command=choice_calc)     # при нажатии сработает функция choice_calc
+    btn4 = ttk.Button(root, text="Режим построения графика функции", command=choice_plot)  # при нажатии сработает функция choice_plot
 
     btn1.pack(anchor="center", fill=X, expand=True, ipady=10)
     btn2.pack(anchor="center", fill=X, expand=True, ipady=10)
     btn3.pack(anchor="center", fill=X, expand=True, ipady=10)
+    btn4.pack(anchor="center", fill=X, expand=True, ipady=10)
     root.mainloop()
 
 root_gui()
