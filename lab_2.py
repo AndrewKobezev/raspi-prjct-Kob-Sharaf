@@ -116,7 +116,7 @@ def choice_sq_eq():
     sq_eq_gui.geometry("400x250")  # устанавливаем размеры окна
 
     label1 = ttk.Label(sq_eq_gui, font=("Arial", 12), justify=CENTER,
-                       text="Форма уравнения:\ny = k*x + b\n\nРешение относительно x")
+                       text="Форма уравнения:\ny = a*x^2 + b*x + c\n\nРешение относительно x")
     label2 = ttk.Label(sq_eq_gui, font=("Arial", 12), justify=LEFT, text="Введите:")
 
     label_a = ttk.Label(sq_eq_gui, font=("Arial", 12), justify=LEFT, text="a = ")
@@ -210,8 +210,8 @@ def choice_calc():
     label1.place(x=150, y=15)
 
     label_op.place(x=183, y=50)
-    entry_a.place(x=50, y=50)
-    entry_b.place(x=200, y=50)
+    entry_a.place(x=30, y=50)
+    entry_b.place(x=230, y=50)
 
     solve_btn.place(x=250, y=130)
     root_btn.place(x=10, y=10)
