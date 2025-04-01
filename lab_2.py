@@ -268,7 +268,6 @@ def choice_plot():
     entry_func = ttk.Entry(plot_gui)
     entry_b = ttk.Entry(plot_gui)
 
-
     solve_btn = ttk.Button(plot_gui, text="Найти", command=plot_handlr)
     root_btn = ttk.Button(plot_gui, text="Меню", command=root_gui)
 
