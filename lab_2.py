@@ -28,7 +28,7 @@ def choice_lin_eq():
                 label_x1.place(x=200, y=150)
 
         except:
-            label_x1 = ttk.Label(lin_eq_gui, font=("Arial", 12), justify=LEFT, text='ВВОДИ ЧИСЛА!!!')
+            label_x1 = ttk.Label(lin_eq_gui, font=("Arial", 12),foreground='#B71C1C', justify=LEFT, text='ВВОДИ ЧИСЛА!!!')
             label_x1.place(x=200, y=150)
 
     lin_eq_gui = Tk()
@@ -41,7 +41,7 @@ def choice_lin_eq():
 
     label_k = ttk.Label(lin_eq_gui, font=("Arial", 12), justify=LEFT, text="k = ")
     label_b = ttk.Label(lin_eq_gui, font=("Arial", 12), justify=LEFT, text="b = ")
-    label_y = ttk.Label(lin_eq_gui, font=("Arial", 12), justify=LEFT, text="c = ")
+    label_y = ttk.Label(lin_eq_gui, font=("Arial", 12), justify=LEFT, text="y = ")
     entry_k = ttk.Entry(lin_eq_gui)
     entry_b = ttk.Entry(lin_eq_gui)
     entry_y = ttk.Entry(lin_eq_gui)
@@ -63,10 +63,6 @@ def choice_lin_eq():
     root_btn.place(x=10, y=10)
 
 def choice_sq_eq():
-
-    # def clear_handlr_sq():
-    #     print(0)
-    #     label_x.master.destroy()
 
     def solve_handlr_sq():
 
@@ -100,14 +96,14 @@ def choice_sq_eq():
                 label_x.place(x=200, y=160)
 
             elif a == 0:
-                label_x = ttk.Label(sq_eq_gui, font=("Arial", 12), justify=LEFT, text="Вы ввели линейное\nуравнение!")
+                label_x = ttk.Label(sq_eq_gui, font=("Arial", 12),foreground='#B71C1C', justify=LEFT, text="Вы ввели линейное\nуравнение!")
                 label_x.place(x=200, y=160)
             else:
                 label_x = ttk.Label(sq_eq_gui, font=("Arial", 12), justify=LEFT, text="Ответ: \nКорней нет")
                 label_x.place(x=200, y=160)
 
         except:
-            label_x = ttk.Label(sq_eq_gui, font=("Arial", 12), justify=LEFT, text="ПРОВЕРЬТЕ \nВВЕДЁННЫЕ \nЗНАЧЕНИЯ!!!")
+            label_x = ttk.Label(sq_eq_gui, font=("Arial", 12),foreground='#B71C1C', justify=LEFT, text="ПРОВЕРЬТЕ \nВВЕДЁННЫЕ \nЗНАЧЕНИЯ!!!")
             label_x.place(x=200, y=160)
 
 
@@ -130,7 +126,6 @@ def choice_sq_eq():
 
     solve_btn = ttk.Button(sq_eq_gui, text="Найти", command=solve_handlr_sq)
     root_btn = ttk.Button(sq_eq_gui, text="Меню", command=root_gui)
-    #clr_btn = ttk.Button(sq_eq_gui, text="Clear", command=clear_handlr_sq)
 
     label1.pack(anchor="n")
     label2.pack(anchor="w")
@@ -146,7 +141,6 @@ def choice_sq_eq():
 
     solve_btn.place(x=200, y=100)
     root_btn.place(x=10, y=10)
-    #clr_btn.place(x=300, y=100)
 
 def choice_calc():
 
@@ -182,7 +176,7 @@ def choice_calc():
                 label_x.place(x=150, y=160)
 
         except:
-            label_x = ttk.Label(calc_gui, font=("Arial", 12), justify=LEFT, text="ПРОВЕРЬТЕ \nВВЕДЁННЫЕ \nЗНАЧЕНИЯ!!!")
+            label_x = ttk.Label(calc_gui, font=("Arial", 12),foreground='#B71C1C', justify=LEFT, text="ПРОВЕРЬТЕ \nВВЕДЁННЫЕ \nЗНАЧЕНИЯ!!!")
             label_x.place(x=200, y=160)
 
     calc_gui = Tk()
@@ -202,10 +196,10 @@ def choice_calc():
     solve_btn = ttk.Button(calc_gui, text="Найти", command=solve_handlr_calc)
     root_btn = ttk.Button(calc_gui, text="Меню", command=calc_gui)
 
-    op_div_btn = ttk.Radiobutton(calc_gui, text="/", value="/", variable=op)
-    op_mult_btn = ttk.Radiobutton(calc_gui, text="*", value="*", variable=op)
-    op_summ_btn = ttk.Radiobutton(calc_gui, text="+", value="+", variable=op)
-    op_minus_btn = ttk.Radiobutton(calc_gui, text="-", value="-", variable=op)
+    op_div_btn      = ttk.Radiobutton(calc_gui, text="/", value="/", variable=op)
+    op_mult_btn     = ttk.Radiobutton(calc_gui, text="*", value="*", variable=op)
+    op_summ_btn     = ttk.Radiobutton(calc_gui, text="+", value="+", variable=op)
+    op_minus_btn    = ttk.Radiobutton(calc_gui, text="-", value="-", variable=op)
 
     label1.place(x=150, y=15)
 
@@ -225,15 +219,14 @@ def choice_calc():
 
 def root_gui():
 
-    root = Tk()     # создаем окно main
+    root = Tk()     # создаем окно root
     root.title("Выберите режим калькулятора")     # устанавливаем заголовок окна
     root.geometry("400x140")    # устанавливаем размеры окна
 
-    # добавляем кнопку, настраиваем ее форму и цвет
-    # при нажатии сработает функция hello world
-    btn1 = ttk.Button(root, text="Решение линейного уравнения", command=choice_lin_eq)
-    btn2 = ttk.Button(root, text="Решение квадратного уравнения", command=choice_sq_eq)
-    btn3 = ttk.Button(root, text="Режим калькулятора", command=choice_calc)
+    # добавляем кнопки
+    btn1 = ttk.Button(root, text="Решение линейного уравнения", command=choice_lin_eq)      # при нажатии сработает функция choice_lin_eq
+    btn2 = ttk.Button(root, text="Решение квадратного уравнения", command=choice_sq_eq)     # при нажатии сработает функция choice_sq_eq
+    btn3 = ttk.Button(root, text="Режим калькулятора", command=choice_calc)     # при нажатии сработает функция choice_calc
 
     btn1.pack(anchor="center", fill=X, expand=True, ipady=10)
     btn2.pack(anchor="center", fill=X, expand=True, ipady=10)
