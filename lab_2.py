@@ -205,7 +205,7 @@ def choice_plot():
     import re
 
     def format_formula_latex(expr: str) -> str:
-        """Преобразует Python-выражение в формат LaTeX для matplotlib."""
+        #Преобразует Python-выражение в формат LaTeX для matplotlib.
         expr = expr.replace("**", "^")
         expr = expr.replace("*", r" ")  # можно убрать "\cdot", если нужно без знака умножения
         expr = re.sub(r'(?<!\^)(\d*)x(\^?\d*)', r'\1x\2', expr)  # формула с x
