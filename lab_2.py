@@ -223,73 +223,85 @@ def choice_calc():
 
 # Функция режима построения графика функции
 def choice_plot():
-
     def plot_handlr():
-        # the figure that will contain the plot
-        fig = Figure(figsize=(5, 5),
-                     dpi=100)
+        func_str = entry_func.get()
+        try:
+            x_min = float(entry_xmin.get())
+            x_max = float(entry_xmax.get())
+            step = float(entry_step.get())
 
-        # list of squares
-        y = [i ** 2 for i in range(101)]
+            if step <= 0 or x_min >= x_max:
+                error_label.config(text="Неверные значения диапазона или шага.")
+                return
 
-        # adding the subplot
-        plot1 = fig.add_subplot(111)
+            x = np.arange(x_min, x_max, step)
+            y = eval(func_str, {"x": x, "np": np, "sin": np.sin, "cos": np.cos, "tan": np.tan,
+                                "log": np.log, "exp": np.exp, "sqrt": np.sqrt, "abs": np.abs})
 
-        # plotting the graph
-        plot1.plot(y)
+            fig = Figure(figsize=(5, 4), dpi=100)
+            ax = fig.add_subplot(111)
+            ax.plot(x, y, label=f'y = {func_str}')
+            ax.set_title("График функции")
+            ax.set_xlabel("x")
+            ax.set_ylabel("y")
+            ax.grid(True)
+            ax.legend()
 
-        # creating the Tkinter canvas
-        # containing the Matplotlib figure
-        canvas = FigureCanvasTkAgg(fig, master=window)
-        canvas.draw()
+            canvas = FigureCanvasTkAgg(fig, master=plot_gui)
+            canvas.draw()
+            canvas.get_tk_widget().place(x=10, y=150, width=600, height=400)
 
-        # placing the canvas on the Tkinter window
-        canvas.get_tk_widget().pack()
+            toolbar = NavigationToolbar2Tk(canvas, plot_gui)
+            toolbar.update()
+            toolbar.place(x=10, y=550)
 
-        # creating the Matplotlib toolbar
-        toolbar = NavigationToolbar2Tk(canvas, window)
-        toolbar.update()
+            error_label.config(text="")  # Очистить ошибки при успешной отрисовке
 
-        # placing the toolbar on the Tkinter window
-        canvas.get_tk_widget().pack()
-
+        except Exception as e:
+            error_label.config(text=f"Ошибка: {str(e)}")
 
     plot_gui = Tk()
-    plot_gui.title("Режим построения графика функции")  # устанавливаем заголовок окна
-    plot_gui.geometry("375x250")  # устанавливаем размеры окна
+    plot_gui.title("Построение графика функции")
+    plot_gui.geometry("600x620")
 
-    label1 = ttk.Label(plot_gui, font=("Arial", 12), justify=CENTER, text="Вычислить:")
-    label2 = ttk.Label(plot_gui, font=("Arial", 12), justify=CENTER, text="Выберите действие:")
+    label_func = ttk.Label(plot_gui, font=("Arial", 12), text="Функция y = f(x):")
+    entry_func = ttk.Entry(plot_gui, width=40)
 
-    op = StringVar(plot_gui, value='+')
+    label_xmin = ttk.Label(plot_gui, text="X min:")
+    entry_xmin = ttk.Entry(plot_gui, width=10)
+    entry_xmin.insert(0, "-10")
 
-    label_op = ttk.Label(plot_gui, font=("Arial", 12), justify=LEFT, textvariable=op)
+    label_xmax = ttk.Label(plot_gui, text="X max:")
+    entry_xmax = ttk.Entry(plot_gui, width=10)
+    entry_xmax.insert(0, "10")
 
-    entry_func = ttk.Entry(plot_gui)
-    entry_b = ttk.Entry(plot_gui)
+    label_step = ttk.Label(plot_gui, text="Шаг:")
+    entry_step = ttk.Entry(plot_gui, width=10)
+    entry_step.insert(0, "0.1")
 
-    solve_btn = ttk.Button(plot_gui, text="Найти", command=plot_handlr)
+    solve_btn = ttk.Button(plot_gui, text="Построить график", command=plot_handlr)
     root_btn = ttk.Button(plot_gui, text="Меню", command=root_gui)
+    error_label = ttk.Label(plot_gui, foreground="red", font=("Arial", 10))
 
-    op_div_btn      = ttk.Radiobutton(plot_gui, text="/", value="/", variable=op)
-    op_mult_btn     = ttk.Radiobutton(plot_gui, text="*", value="*", variable=op)
-    op_summ_btn     = ttk.Radiobutton(plot_gui, text="+", value="+", variable=op)
-    op_minus_btn    = ttk.Radiobutton(plot_gui, text="-", value="-", variable=op)
+    # Расположение виджетов
+    label_func.place(x=10, y=10)
+    entry_func.place(x=10, y=35)
 
-    label1.place(x=150, y=15)
+    label_xmin.place(x=10, y=70)
+    entry_xmin.place(x=60, y=70)
 
-    label_op.place(x=183, y=50)
-    entry_a.place(x=30, y=50)
-    entry_b.place(x=230, y=50)
+    label_xmax.place(x=140, y=70)
+    entry_xmax.place(x=200, y=70)
 
-    solve_btn.place(x=250, y=130)
-    root_btn.place(x=10, y=10)
+    label_step.place(x=280, y=70)
+    entry_step.place(x=330, y=70)
 
-    label2.place(x=120, y=75)
-    op_div_btn.place(x=50, y=100)
-    op_mult_btn.place(x=135, y=100)
-    op_summ_btn.place(x=215, y=100)
-    op_minus_btn.place(x=295, y=100)
+    solve_btn.place(x=230, y=110)
+    root_btn.place(x=10, y=110)
+    error_label.place(x=10, y=150)
+
+
+
 
 
 def root_gui():
