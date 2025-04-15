@@ -202,9 +202,16 @@ def choice_calc():
 
 # Функция режима построения графика функции
 def choice_plot():
+    import re
+
+    def format_formula_latex(expr: str) -> str:
+        """Преобразует Python-выражение в формат LaTeX для matplotlib."""
+        expr = expr.replace("**", "^")
+        expr = expr.replace("*", r" ")  # можно убрать "\cdot", если нужно без знака умножения
+        expr = re.sub(r'(?<!\^)(\d*)x(\^?\d*)', r'\1x\2', expr)  # формула с x
+        return rf"$y = {expr}$"
 
     def plot_handlr():
-
         func_str = entry_func.get()
         try:
             x_min = float(entry_xmin.get())
@@ -214,17 +221,20 @@ def choice_plot():
             y_max = float(entry_ymax.get())
 
             if step <= 0 or x_min >= x_max or y_min >= y_max:
-                error_label.config(text="Неверные значения диапазонов или шага!")
+                error_label.config(text="Неверные значения диапазонов или шага.")
                 return
 
             x = np.arange(x_min, x_max, step)
-            y = eval(func_str, {"x": x, "sin": np.sin, "cos": np.cos, "tan": np.tan,
+            y = eval(func_str, {"x": x, "np": np, "sin": np.sin, "cos": np.cos, "tan": np.tan,
                                 "log": np.log, "exp": np.exp, "sqrt": np.sqrt, "abs": np.abs})
 
-            fig = Figure(figsize=(6, 5), dpi=100)
+            # Форматированное отображение формулы
+            formula_latex = format_formula_latex(func_str)
+
+            fig = Figure(figsize=(5, 4), dpi=100)
             ax = fig.add_subplot(111)
-            ax.plot(x, y, label=f'y = {func_str}')
-            ax.set_title("График функции")
+            ax.plot(x, y, label=formula_latex)
+            ax.set_title(f"График функции:\n{formula_latex}", fontsize=12)
             ax.set_xlabel("x")
             ax.set_ylabel("y")
             ax.grid(True)
@@ -233,11 +243,11 @@ def choice_plot():
 
             canvas = FigureCanvasTkAgg(fig, master=plot_gui)
             canvas.draw()
-            canvas.get_tk_widget().place(x=10, y=200, width=580, height=400)
+            canvas.get_tk_widget().place(x=10, y=180, width=580, height=400)
 
             toolbar = NavigationToolbar2Tk(canvas, plot_gui)
             toolbar.update()
-            toolbar.place(x=10, y=600)
+            toolbar.place(x=10, y=590)
 
             error_label.config(text="")
 
