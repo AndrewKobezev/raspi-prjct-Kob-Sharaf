@@ -1,3 +1,4 @@
+import re
 import math
 import numpy as np
 from tkinter import *
@@ -202,12 +203,11 @@ def choice_calc():
 
 # Функция режима построения графика функции
 def choice_plot():
-    import re
 
+    # Преобразует Python-выражение в формат LaTeX для matplotlib.
     def format_formula_latex(expr: str) -> str:
-        #Преобразует Python-выражение в формат LaTeX для matplotlib.
         expr = expr.replace("**", "^")
-        expr = expr.replace("*", r" ")  # можно убрать "\cdot", если нужно без знака умножения
+        expr = expr.replace("*", r" ")
         expr = re.sub(r'(?<!\^)(\d*)x(\^?\d*)', r'\1x\2', expr)  # формула с x
         return rf"$y = {expr}$"
 
@@ -233,6 +233,11 @@ def choice_plot():
 
             fig = Figure(figsize=(5, 4), dpi=100)
             ax = fig.add_subplot(111)
+
+            # Рисуем жирные оси X=0 и Y=0
+            ax.axhline(0, color='black', linewidth=0.85)  # Ось X
+            ax.axvline(0, color='black', linewidth=0.85)  # Ось Y
+
             ax.plot(x, y, label=formula_latex)
             ax.set_title(f"График функции:\n{formula_latex}", fontsize=12)
             ax.set_xlabel("x")
