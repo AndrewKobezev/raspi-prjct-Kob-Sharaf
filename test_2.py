@@ -11,15 +11,31 @@ import base64
 def main(page: ft.Page):
     page.title = "Математические режимы"
 
-    def lin_eq_view():
+    def go_to(e, content):
         page.clean()
+        page.add(content)
 
+    def root_gui():
+        def build_menu():
+            page.clean()
+            page.add(
+                ft.Column([
+                    ft.ElevatedButton("Решение линейного уравнения", on_click=lambda e: go_to(e, lin_eq_view())),
+                    ft.ElevatedButton("Решение квадратного уравнения", on_click=lambda e: go_to(e, sq_eq_view())),
+                    ft.ElevatedButton("Калькулятор", on_click=lambda e: go_to(e, calc_view())),
+                    ft.ElevatedButton("Построение графика функции", on_click=lambda e: go_to(e, plot_view())),
+                ], spacing=20)
+            )
+
+        return build_menu
+
+    def lin_eq_view():
         k_field = ft.TextField(label="k")
         b_field = ft.TextField(label="b")
         y_field = ft.TextField(label="y")
         result_text = ft.Text("", size=16)
 
-        def solve_lin_eq():
+        def solve_lin_eq(e):
             try:
                 k = float(k_field.value)
                 b = float(b_field.value)
@@ -38,9 +54,8 @@ def main(page: ft.Page):
             k_field, b_field, y_field,
             ft.ElevatedButton("Найти", on_click=solve_lin_eq),
             result_text,
-            ft.TextButton("Назад в меню", on_click=root_gui())
+            ft.TextButton("Назад в меню", on_click=lambda e: root_gui()())
         ], spacing=10)
-
 
     def sq_eq_view():
         a_field = ft.TextField(label="a")
@@ -149,18 +164,6 @@ def main(page: ft.Page):
             ft.TextButton("Назад в меню", on_click=lambda e: root_gui()())
         ], spacing=10, scroll=ft.ScrollMode.ALWAYS)
 
-    def root_gui():
-        page.clean()
-        page.add(
-            ft.Column([
-                ft.ElevatedButton("Решение линейного уравнения", on_click=lin_eq_view()),
-                ft.ElevatedButton("Решение квадратного уравнения", on_click=sq_eq_view()),
-                ft.ElevatedButton("Калькулятор", on_click=calc_view()),
-                ft.ElevatedButton("Построение графика функции", on_click=plot_view()),
-            ], spacing=20)
-        )
-
-    root_gui()
-
+    root_gui()()
 
 ft.app(target=main)
